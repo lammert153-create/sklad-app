@@ -25,10 +25,11 @@ jobs:
 
     - name: Build with Buildozer
       run: |
-        yes | buildozer -v android debug --warn_on_root=0
+        yes | buildozer -v android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: rawmaterialapp-apk
         path: bin/*.apk
+
