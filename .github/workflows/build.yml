@@ -31,15 +31,18 @@ jobs:
       run: |
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
     - name: Build with Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        buildozer --no-compile-app android debug
+        ACCEPT_BUILD_TOOLS_CHECKSUMS=1 buildozer --no-compile-app android debug
+      env:
+        NONINTERACTIVE: 1
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: rawmaterialapp-apk
         path: bin/*.apk
+
