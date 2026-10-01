@@ -7,31 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    container:
+      image: kivy/buildozer:latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    - name: Force System Python to 3.11
-      run: |
-        sudo update-alternatives --install /usr/bin/python3 python3 $(which python) 1
-        sudo update-alternatives --set python3 $(which python)
-        python3 --version
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk build-essential libffi-dev libssl-dev libsqlite3-dev ccache autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake
-        python3 -m pip install --upgrade pip
-        python3 -m pip install "cython<3.0.0" buildozer
-
-    - name: Build APK with Buildozer
+    - name: Build APK
       run: |
         buildozer -v android debug
 
