@@ -18,18 +18,17 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install dependencies inside venv
+    - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y git zip unzip openjdk-17-jdk build-essential libffi-dev libssl-dev libsqlite3-dev ccache autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake
-        python -m venv venv
-        source venv/bin/activate
-        pip install --upgrade pip
-        pip install "cython<3.0.0" buildozer
+        python -m pip install --upgrade pip
+        python -m pip install "cython<3.0.0" buildozer
 
-    - name: Build APK with Buildozer
+    - name: Clean previous build cache and Build APK
       run: |
-        source venv/bin/activate
+        rm -rf .buildozer
+        buildozer -v android clean
         buildozer -v android debug
 
     - name: Upload APK Artifact
@@ -37,4 +36,3 @@ jobs:
       with:
         name: rawmaterialapp-apk
         path: bin/*.apk
-
