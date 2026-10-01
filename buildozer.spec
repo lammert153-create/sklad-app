@@ -19,7 +19,7 @@ source.include_exts = py,png,jpg,kv,atlas,db
 version = 0.1
 
 # (list) Application requirements
-requirements = python3,kivy,sqlite3
+requirements = python3,kivy==2.3.0,sqlite3
 
 # (str) Supported orientation
 orientation = portrait
@@ -34,3 +34,4 @@ log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = false, 1 = true)
 warn_on_root = 1
+p4a.branch = master
