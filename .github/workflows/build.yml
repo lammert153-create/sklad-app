@@ -15,7 +15,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
     - name: Install System Dependencies
       run: |
@@ -27,6 +27,12 @@ jobs:
         pip install --upgrade pip
         pip install "cython==0.29.33" "buildozer==1.5.0"
 
+    - name: Accept Android SDK Licenses
+      run: |
+        mkdir -p ~/.android
+        touch ~/.android/repositories.cfg
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
     - name: Build with Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
@@ -37,4 +43,3 @@ jobs:
       with:
         name: rawmaterialapp-apk
         path: bin/*.apk
-
