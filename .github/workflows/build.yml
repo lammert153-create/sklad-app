@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK with Docker
 
 on:
   push:
@@ -7,38 +7,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    container:
+      image: kivy/buildozer:latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    - name: Install System Dependencies
+    - name: Build APK
       run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk build-essential libffi-dev libssl-dev libsqlite3-dev ccache autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake
-
-    - name: Install Build tools
-      run: |
-        pip install --upgrade pip
-        pip install "cython==0.29.33" "buildozer==1.5.0"
-
-    - name: Accept Android SDK Licenses
-      run: |
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-    - name: Build with Buildozer
-      run: |
-        export PATH=$PATH:~/.local/bin
-        ACCEPT_BUILD_TOOLS_CHECKSUMS=1 buildozer --no-compile-app android debug
-      env:
-        NONINTERACTIVE: 1
+        buildozer -v android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
