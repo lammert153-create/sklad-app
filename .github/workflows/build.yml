@@ -7,13 +7,21 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     container:
-      image: kivy/buildozer:latest
+      image: ubuntu:20.04
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update
+        apt-get install -y python3 python3-pip git zip unzip openjdk-17-jdk build-essential libffi-dev libssl-dev libsqlite3-dev ccache autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake
+        python3 -m pip install --upgrade pip setuptools
+        python3 -m pip install "cython<3.0.0" buildozer
 
     - name: Build APK
       run: |
