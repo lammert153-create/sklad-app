@@ -19,7 +19,7 @@ source.include_exts = py,png,jpg,kv,atlas,db
 version = 0.1
 
 # (list) Application requirements
-requirements = python3==3.11.5,kivy==2.3.0,sqlite3
+requirements = python3,kivy==2.3.0,sqlite3
 
 android.api = 33
 android.minapi = 21
