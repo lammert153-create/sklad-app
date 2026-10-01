@@ -24,6 +24,7 @@ requirements = python3==3.11.0,kivy==2.3.0,sqlite3
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
+android.accept_sdk_license = True
 # (str) Supported orientation
 orientation = portrait
 
